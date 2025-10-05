@@ -1,10 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(
-  _: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PATCH(_: Request, { params }: { params: { id: string }}) {
   try {
     const convidadoId = Number(params.id);
 
