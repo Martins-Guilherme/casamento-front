@@ -1,5 +1,3 @@
----
-
 > "Esse projeto é um sistema de **gerenciamento de presentes e convidados**.  
 > 
 > No **banco de dados**, temos dois modelos principais: **Convidado** e **TabelaDePresentes**, ligados por uma relação 1-para-1. Cada convidado pode escolher apenas um presente, e cada presente só pode ser associado a um convidado.  
