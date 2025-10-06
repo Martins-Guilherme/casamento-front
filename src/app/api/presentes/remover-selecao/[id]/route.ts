@@ -11,7 +11,7 @@ export async function PATCH(
   }
 
   try {
-    // garante que presente existe
+    // garante que o presente exista
     const presente = await prisma.tabelaDePresentes.findUnique({
       where: { id: presenteId },
     });
@@ -21,8 +21,20 @@ export async function PATCH(
         { status: 404 }
       );
 
+    // Encontra o convidado que está vinculado a este presente
+    const convidado = await prisma.convidado.findFirst({
+      where: { presenteId },
+    });
+    if (!convidado) {
+      return NextResponse.json(
+        { error: "Nenhum convidado está vinculado a este presente" },
+        { status: 400 }
+      );
+    }
+
+    // Remover o vinculo do convidado com o presente
     await prisma.convidado.update({
-      where: { id: presenteId },
+      where: { id: convidado.id },
       data: { presenteId: null },
     });
 

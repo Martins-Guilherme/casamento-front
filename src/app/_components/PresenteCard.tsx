@@ -75,12 +75,16 @@ export default function PresenteCard({
       <div
         className={cn(
           "mt-4 text-sm font-medium text-center py-1.5 rounded-lg transition-colors",
-          selecionado
+          selecionado && !isBlocked
             ? "bg-[#D94F5A] text-white"
             : "bg-[#FFEDE6] text-[#D94F5A] hover:bg-[#FFD7CF]"
         )}
       >
-        {selecionado ? "Selecionado" : "Selecionar Presente"}
+        {selecionado && !isBlocked
+          ? "Selecionado"
+          : isBlocked
+          ? "Indisponivel"
+          : "Selecionar Presente"}
       </div>
     </div>
   );

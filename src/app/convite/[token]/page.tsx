@@ -1,10 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
+import Evento from "@/app/_components/Evento";
 
 export default function ConviteTokenPage() {
   const { token } = useParams();
@@ -46,8 +46,8 @@ export default function ConviteTokenPage() {
   const { nome, email, presente } = convidado;
 
   return (
-    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8">
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
+    <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 min-h-screen bg-[#FFEDE6] py-4 px-2">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-2">
         <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
           <h1 className="text-2xl font-semibold mb-2">
             Olá, {nome.split(" ")[0]}! 🎉
@@ -81,32 +81,14 @@ export default function ConviteTokenPage() {
       </div>
 
       {/* 💒 Coluna direita: informações do casamento */}
-      <div className="bg-white rounded-2xl shadow-md p-6 flex flex-col justify-center text-center">
-        <h2 className="text-2xl font-semibold text-gray-800 mb-4">
-          Detalhes do Casamento 💍
-        </h2>
-        <p className="text-gray-700 text-lg mb-2">
-          <strong>Data:</strong> 15 de Novembro de 2025
-        </p>
-        <p className="text-gray-700 text-lg mb-2">
-          <strong>Hora:</strong> 17h00
-        </p>
-        <p className="text-gray-700 text-lg mb-6">
-          <strong>Local:</strong> Espaço Jardim das Oliveiras, Rio de Janeiro
-        </p>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-2">
+        <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
+          <Evento />
 
-        <div className="relative w-full h-56 rounded-lg overflow-hidden border border-gray-200">
-          <Image
-            src="https://media.istockphoto.com/id/930575164/pt/foto/small-catholic-church.webp?s=1024x1024&w=is&k=20&c=bMTuE0rBITCSslPhmVElymC5dFOUsrnKhkNtT4uuLcc="
-            alt="Local do casamento"
-            fill
-            className="object-cover"
-          />
+          <p className="text-gray-600 text-sm mt-4">
+            “Será um prazer imenso celebrar este dia com você 💖”
+          </p>
         </div>
-
-        <p className="text-gray-600 text-sm mt-4">
-          “Será um prazer imenso celebrar este dia com você 💖”
-        </p>
       </div>
     </div>
   );

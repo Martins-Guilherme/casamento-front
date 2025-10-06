@@ -29,7 +29,30 @@ async function main() {
         imagem:
           "https://media.istockphoto.com/id/1388332535/pt/foto/bedroom.webp?s=1024x1024&w=is&k=20&c=Uqgi-oqgVi87w12orxjnaITbRusmOLSCh6D-xMyy-qY=",
       },
+      {
+        nome: "Cafeteira Expresso",
+        descricao: "Para começar o dia com o aroma e o sabor do amor.",
+        imagem:
+          "https://images.unsplash.com/photo-1672209962122-4e38cd353163?q=80&w=327&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
+      {
+        nome: "Aparelho de Fondue",
+        descricao: "Para noites românticas e deliciosas a dois.",
+        imagem:
+          "https://plus.unsplash.com/premium_photo-1664391816911-bfa64c860565?q=80&w=844&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      },
     ],
+  });
+
+  await prisma.evento.create({
+    data: {
+      titulo: "Nosso Casamento",
+      data: new Date("2025-10-25T15:00:00Z"),
+      local: "Igreja Matriz, Centro, Cidade",
+      descricao: "Venha celebrar conosco este dia tão especial!",
+      imagem:
+        "https://media.istockphoto.com/id/930575164/pt/foto/small-catholic-church.webp?s=1024x1024&w=is&k=20&c=bMTuE0rBITCSslPhmVElymC5dFOUsrnKhkNtT4uuLcc=",
+    },
   });
 
   console.log("✅ Presentes criados com sucesso!");

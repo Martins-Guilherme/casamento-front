@@ -1,9 +1,12 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(_: Request, params: { id: any }) {
+export async function PATCH(
+  _: Request,
+  context: { params: { id: string }; searchParams: any }
+) {
   try {
+    const { params } = context;
     const convidadoId = Number(params.id);
 
     // Verificar se o convidado existe;

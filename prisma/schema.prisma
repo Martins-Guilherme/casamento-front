@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_DEV_URL")
 }
 
 model Convidado {
@@ -27,4 +27,14 @@ model TabelaDePresentes {
   descricao  String?
   disponivel Boolean?    @default(true)
   convidados Convidado[]
+}
+
+model Evento {
+  id        Int      @id @default(autoincrement())
+  titulo    String
+  data      DateTime
+  local     String
+  imagem    String?
+  descricao String?
+  criadoEm  DateTime @default(now())
 }

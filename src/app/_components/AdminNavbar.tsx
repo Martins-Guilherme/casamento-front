@@ -15,6 +15,7 @@ export default function AdminNavbar() {
     { label: "Remover Seleção", href: "/admin/remover-selecao" },
     { label: "Convidados", href: "/admin/convidados" },
     { label: "Enviar Convites", href: "/admin/convites" },
+    {label: "Cadastrar Evento", href: "/admin/eventos"}
   ];
 
   return (
@@ -30,7 +31,7 @@ export default function AdminNavbar() {
             onClick={() => setOpen(!open)}
             className="sm:hidden p-2 rounded-md hover:bg-gray-100"
           >
-            <Menu className="w-5 h-5" />
+            <Menu className="w-6 h-6" />
           </button>
 
           {/* Desktop menu */}

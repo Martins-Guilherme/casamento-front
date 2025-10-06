@@ -14,7 +14,7 @@ export default function EnviarConvitesPage() {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold">Enviar Convites</h1>
 
-      <p className="text-gray-600 text-sm">
+      <p className="text-gray-700 text-ls">
         Este é o link genérico de convite. Envie-o para todos os convidados.
         Cada convidado poderá cadastrar suas informações e escolher um presente.
       </p>

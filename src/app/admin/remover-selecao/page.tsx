@@ -16,7 +16,7 @@ type Presente = {
   id: number;
   nome: string;
   imagem?: string | null;
-  reservado?: number | null;
+  reservado?: boolean;
 };
 
 export default function RemoveSelectionPage() {
@@ -42,7 +42,7 @@ export default function RemoveSelectionPage() {
     if (!confirm("Remover vínculo desse presente?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/presentes/remover-selecao/${id}`, {
+      const res = await fetch(`/api/convidados/remover-presente/${id}`, {
         method: "PATCH",
       });
       if (!res.ok) throw new Error("Erro");
