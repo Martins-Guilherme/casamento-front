@@ -97,7 +97,7 @@ export default function ConviteTokenPage() {
 
         <div className="relative w-full h-56 rounded-lg overflow-hidden border border-gray-200">
           <Image
-            src="https://images.unsplash.com/photo-1529634895259-6c3c6aa1b2e0"
+            src="https://media.istockphoto.com/id/930575164/pt/foto/small-catholic-church.webp?s=1024x1024&w=is&k=20&c=bMTuE0rBITCSslPhmVElymC5dFOUsrnKhkNtT4uuLcc="
             alt="Local do casamento"
             fill
             className="object-cover"

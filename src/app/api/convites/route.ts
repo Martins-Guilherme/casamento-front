@@ -13,6 +13,17 @@ export async function POST(req: Request) {
       );
     }
 
+    const presenteJaEscolhido = await prisma.convidado.findFirst({
+      where: { presenteId },
+    });
+
+    if (presenteJaEscolhido) {
+      return NextResponse.json(
+        { error: "PRESENTE_JA_ESCOLHIDO" },
+        { status: 400 }
+      );
+    }
+
     // Gerar o token de acesso unico
     const token = crypto.randomBytes(10).toString("hex");
 
@@ -24,6 +35,7 @@ export async function POST(req: Request) {
         telefone,
         mensagem,
         token,
+        usado: true,
         presente: { connect: { id: presenteId } },
       },
     });

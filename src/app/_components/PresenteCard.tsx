@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 "use client";
 
 import Image from "next/image";
@@ -9,6 +10,9 @@ interface PresenteCardProps {
     nome: string;
     descricao?: string;
     imagem?: string;
+    disponivel?: boolean;
+    reservado?: boolean;
+    escolhidoPor?: string;
   };
   selecionado?: boolean;
   onSelect: (id: number) => void;
@@ -19,15 +23,22 @@ export default function PresenteCard({
   selecionado,
   onSelect,
 }: PresenteCardProps) {
+  const isBlocked = !presente.disponivel || presente.reservado;
   return (
     <div
-      onClick={() => onSelect(presente.id)}
+      onClick={() => {
+        if (isBlocked) return;
+        presente.disponivel && onSelect(presente.id);
+      }}
       className={cn(
-        "cursor-pointer rounded-xl border p-4 shadow-md hover:shadow-lg transition-all bg-white flex flex-col justify-between",
-        selecionado
-          ? "border-[#D94F5A] ring-2 ring-[#D94F5A]/40"
-          : "border-gray-200 hover:border-[#D94F5A]/30"
+        "rounded-xl border p-4 shadow-md transition-all bg-white flex flex-col justify-between",
+        isBlocked
+          ? "opacity-60 cursor-not-allowed shadow-none"
+          : "cursor-pointer shadow-md hover:shadow-lg",
+        selecionado && "border-[#D94F5A] ring-2 ring-[#D94F5A]/40"
       )}
+      aria-disabled={isBlocked}
+      tabIndex={isBlocked ? -1 : 0}
     >
       {presente.imagem && (
         <div className="relative w-full h-32 mb-3">
@@ -47,6 +58,16 @@ export default function PresenteCard({
           <p className="text-gray-600 text-sm line-clamp-2">
             {presente.descricao}
           </p>
+        )}
+        {presente.reservado && (
+          <>
+            <p className="tsxt-sm text-red-500 font-semibold mt-2">
+              Já escolhido!
+            </p>
+            <p className="text-xs text-gray-500 mt-1">
+              Escolhido por: {presente.escolhidoPor}
+            </p>
+          </>
         )}
       </div>
 

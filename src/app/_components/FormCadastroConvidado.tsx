@@ -6,6 +6,7 @@ import { useState } from "react";
 interface FormCadastroConvidadoProps {
   presenteId: number;
   onSuccess: (token: string) => void;
+  onError: (msg: string) => void;
 }
 
 interface FormData {
@@ -13,11 +14,13 @@ interface FormData {
   email: string;
   telefone?: string;
   mensagem?: string;
+  presenteId?: number;
 }
 
 export default function FormCadastroConvidado({
   presenteId,
   onSuccess,
+  onError,
 }: FormCadastroConvidadoProps) {
   const {
     register,
@@ -34,21 +37,33 @@ export default function FormCadastroConvidado({
     try {
       const res = await fetch("/api/convites", {
         method: "POST",
-        headers: { "Content-Type": "aplication/json" },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, presenteId }),
       });
 
       const result = await res.json();
 
+      // Caso de erro tratado
       if (!res.ok) {
-        setError(result.error || "Erro ao enviar formulário");
+        const mensagemErro =
+          result?.error === "PRESENTE_JA_ESCOLHIDO"
+            ? "Este presente já foi escolhido por outro convidado"
+            : result?.error || "Erro ao enviar formulário";
+
+        setError(mensagemErro);
+        onError(mensagemErro);
         setLoading(false);
         return;
       }
+
+      // Sucesso
       onSuccess(result.convidado.token);
     } catch (error) {
       console.error(error);
-      setError("Erro ao enviar formulário");
+      const msg = "Erro inesperado ao enviar formulário";
+      setError(msg);
+      onError(msg);
+    } finally {
       setLoading(false);
     }
   };

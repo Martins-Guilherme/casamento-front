@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(_: Request, { params }: { params: { id: string }}) {
+export async function PATCH(_: Request, params: { id: any }) {
   try {
     const convidadoId = Number(params.id);
 
@@ -18,24 +19,20 @@ export async function PATCH(_: Request, { params }: { params: { id: string }}) {
       );
     }
 
-    // Encontra presente vinculado a esse convidado
-    const presente = await prisma.tabelaDePresentes.findUnique({
-      where: { convidadoId },
-    });
     // Verifica se o presente esta vinculado ao convidado
-    if (!presente) {
+    if (!convidado.presenteId) {
       return NextResponse.json(
-        {
-          error: "Nenhum presente vinculado a este convidado",
-        },
+        { error: "Nenhum presente vinculado a este convidado" },
         { status: 400 }
       );
     }
 
-    // Desvincula o presente do convidado
-    await prisma.tabelaDePresentes.update({
-      where: { id: presente.id },
-      data: { convidadoId: null },
+    // Desvincula o presente do convidado, setando presenteId para null
+    await prisma.convidado.update({
+      where: {
+        id: convidadoId,
+      },
+      data: { presenteId: null },
     });
     return NextResponse.json({ message: "Presente desvinculado com sucesso" });
   } catch (error) {

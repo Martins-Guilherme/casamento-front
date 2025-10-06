@@ -16,7 +16,7 @@ type Presente = {
   id: number;
   nome: string;
   imagem?: string | null;
-  convidadoId?: number | null;
+  reservado?: number | null;
 };
 
 export default function RemoveSelectionPage() {
@@ -64,11 +64,11 @@ export default function RemoveSelectionPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {presentes.filter((p) => p.convidadoId).length === 0 && (
+            {presentes.filter((p) => p.reservado).length === 0 && (
               <p>Nenhum presente selecionado</p>
             )}
             {presentes
-              .filter((p) => p.convidadoId)
+              .filter((p) => p.reservado)
               .map((p) => (
                 <div key={p.id} className="bg-white rounded shadow p-3">
                   {p.imagem ? (

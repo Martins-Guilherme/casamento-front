@@ -19,7 +19,7 @@ type Presente = {
   nome: string;
   descricao?: string | null;
   imagem?: string | null;
-  convidadoId?: number | null;
+  reservado?: number | null;
 };
 
 export default function AdminPresentsPage() {
@@ -187,8 +187,7 @@ export default function AdminPresentsPage() {
                   >
                     Remover
                   </button>
-
-                  {p.convidadoId ? (
+                  {p.reservado ? (
                     <span className="ml-auto text-sm text-amber-700">
                       Reservado
                     </span>
