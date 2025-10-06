@@ -4,8 +4,11 @@ import fs from "fs";
 import path from "path";
 
 // DELETE - Remover presentes pelo ID
-export async function DELETE(_: Request, res: any) {
-  const id = Number(res.id);
+export async function DELETE(
+  _: Request,
+  { params }: { params: { id: string } }
+) {
+  const id = Number(params.id);
   try {
     const presente = await prisma.tabelaDePresentes.findUnique({
       where: { id },

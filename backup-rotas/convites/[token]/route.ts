@@ -1,9 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function GET(req: Request, res: any) {
+export async function GET(
+  req: Request,
+  context: { params: { token: string } }
+) {
   try {
-    const { params } = res;
+    const { params } = context;
     const convidado = await prisma.convidado.findUnique({
       where: { token: params.token },
       include: { presente: true },
