@@ -12,9 +12,12 @@ export async function GET() {
 
     return NextResponse.json(convidados);
   } catch (error) {
-    console.error("Erro ao tentar listar os convidados", error);
+    console.error(
+      "Erro ao tentar listar os convidados na rota: api/convidados/route.ts: ",
+      error
+    );
     return NextResponse.json(
-      { error: "Erro ao listar convidados" },
+      { error: `Erro ao listar convidados: ${error}` },
       { status: 500 }
     );
   }
