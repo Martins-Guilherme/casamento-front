@@ -27,7 +27,6 @@ export default function AdminPresentsPage() {
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [imagemUrl, setImagemUrl] = useState(""); // caso queira colar URL
-  const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [preview, setPreview] = useState<string | null>(null);
 
@@ -46,16 +45,6 @@ export default function AdminPresentsPage() {
     fetchPresentes();
   }, []);
 
-  useEffect(() => {
-    if (!file) {
-      setPreview(null);
-      return;
-    }
-    const url = URL.createObjectURL(file);
-    setPreview(url);
-    return () => URL.revokeObjectURL(url);
-  }, [file]);
-
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!nome.trim()) {
@@ -64,20 +53,6 @@ export default function AdminPresentsPage() {
     }
     setLoading(true);
     try {
-      let created;
-      if (file) {
-        // upload multipart -> /api/presentes/upload
-        const fd = new FormData();
-        fd.append("nome", nome);
-        fd.append("descricao", descricao);
-        fd.append("imagem", file);
-        const res = await fetch("/api/presentes/upload", {
-          method: "POST",
-          body: fd,
-        });
-        if (!res.ok) throw new Error("Erro upload");
-        created = await res.json();
-      } else {
         // cria com URL (ou sem imagem)
         const res = await fetch("/api/presentes", {
           method: "POST",
@@ -88,14 +63,11 @@ export default function AdminPresentsPage() {
           const error = await res.json().catch(() => null);
           throw new Error(error?.error || "Erro ao criar");
         }
-        created = await res.json();
-      }
 
       toast.success("Presente adicionado!");
       setNome("");
       setDescricao("");
       setImagemUrl("");
-      setFile(null);
       fetchPresentes();
     } catch (err) {
       console.error(err);

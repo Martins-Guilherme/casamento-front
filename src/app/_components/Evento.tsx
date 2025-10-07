@@ -15,8 +15,6 @@ const Evento = () => {
         setEvento(data);
       } catch (error: any) {
         toast.error(error.message || "Erro ao carregar dados");
-      } finally {
-        toast.success("Uhuu");
       }
     }
     showEvent();
