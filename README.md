@@ -73,7 +73,7 @@ Inicie o projeto:
 
 ---
 
-## Imagen
+## Imagens
 
 #### Area Administrativa
 
