@@ -44,6 +44,9 @@ export default function ConvidadosPage() {
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
+            {convidados.filter((p) => p).length === 0 && (
+              <p>Nenhum convidado cadastrado</p>
+            )}
             {convidados.map((c) => (
               <li key={c.id} className="bg-white p-3 rounded shadow">
                 <div className="flex items-start justify-between">
