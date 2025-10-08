@@ -54,9 +54,6 @@ const AdminPage = () => {
 
   return (
     <div className="max-w-dvh mx-auto text-center flex flex-col items-center mb-8">
-      <h1 className="bg-white p-8 text-red-300 uppercase text-shadow-2xs rounded-2xl shadow text-3xl font-bold mb-6">
-        Dashboard
-      </h1>
       <div className=" bg-white rounded-lg shadow p-3 overflow-hidden">
         <div className="p-6 space-y-8 flex w-fit justify-center max-w-lg items-center">
           <div className="grid grid-cols-1 gap-24">
