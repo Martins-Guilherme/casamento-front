@@ -5,7 +5,7 @@ import { toast } from "sonner";
 
 export default function EventoForm() {
   const [titulo, setTitulo] = useState("");
-  const [dataBR, setDataBR] = useState(""); // formato data BR
+  const [date, setdate] = useState(""); // formato data BR
   const [local, setLocal] = useState("");
   const [descricao, setDescricao] = useState("");
   const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ export default function EventoForm() {
               setLocal(evento.local || "");
               setDescricao(evento.descricao || "");
               if (evento.data) {
-                setDataBR(evento.data ? evento.data.split("T")[0] : "");
+                setdate(evento.data ? evento.data.split("T")[0] : "");
               }
             }
           })
@@ -38,17 +38,16 @@ export default function EventoForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!titulo.trim() || !dataBR || !local.trim()) {
+    if (!titulo.trim() || !date || !local.trim()) {
       toast.error("Título, Data e Local são obrigatórios");
       return;
     }
     setLoading(true);
-    const dataISO = formatBRToISO(dataBR);
     try {
       const res = await fetch("/api/evento", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ titulo, data: dataISO, local, descricao }),
+        body: JSON.stringify({ titulo, data: date, local, descricao }),
       });
 
       if (!res.ok) {
@@ -95,8 +94,8 @@ export default function EventoForm() {
         <input
           id="data"
           type="date"
-          value={dataBR}
-          onChange={(e) => setDataBR(e.target.value)}
+          value={date}
+          onChange={(e) => setdate(e.target.value)}
           className="w-full border px-3 py-2 rounded"
           disabled={loading}
           required
@@ -141,18 +140,4 @@ export default function EventoForm() {
       </button>
     </form>
   );
-}
-
-function formatISOToBR(iso: string) {
-  if (!iso) return;
-  const date = new Date(iso);
-  console.log("Data pt-BR: ", date.toLocaleDateString("pt-br"));
-  return date.toLocaleDateString("pt-BR");
-}
-
-function formatBRToISO(brDate: string) {
-  const [dia, mes, ano] = brDate.split("/");
-  if (!dia || !mes || !ano) return "";
-  console.log("Data ISO: ", dia, mes, ano);
-  return [dia, mes, ano];
 }

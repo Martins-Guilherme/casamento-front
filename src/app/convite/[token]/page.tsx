@@ -84,7 +84,6 @@ export default function ConviteTokenPage() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-2">
         <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
           <Evento />
-
           <p className="text-gray-600 text-sm mt-4">
             “Será um prazer imenso celebrar este dia com você 💖”
           </p>
