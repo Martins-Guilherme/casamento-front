@@ -5,43 +5,50 @@ import { toast } from "sonner";
 
 export default function EventoForm() {
   const [titulo, setTitulo] = useState("");
-  const [data, setData] = useState(""); // formato ISO yyyy-MM-dd
+  const [dataBR, setDataBR] = useState(""); // formato data BR
   const [local, setLocal] = useState("");
   const [descricao, setDescricao] = useState("");
   const [loading, setLoading] = useState(false);
 
   // Ao montar, tente carregar evento existente para edição
   useEffect(() => {
-    fetch("/api/evento")
-      .then((res) => res.json())
-      .then((evento) => {
-        if (evento) {
-          setTitulo(evento.titulo || "");
-          setData(evento.data ? evento.data.split("T")[0] : "");
-          setLocal(evento.local || "");
-          setDescricao(evento.descricao || "");
-        }
-      })
-      .catch(() => {
-        toast.error("Erro ao carregar dados do evento");
-      });
+    async function fetchEvento() {
+      try {
+        fetch("/api/evento")
+          .then((res) => res.json())
+          .then((evento) => {
+            if (evento) {
+              setTitulo(evento.titulo || "");
+              setLocal(evento.local || "");
+              setDescricao(evento.descricao || "");
+              if (evento.data) {
+                setDataBR(evento.data ? evento.data.split("T")[0] : "");
+              }
+            }
+          })
+          .catch(() => {
+            toast.error("Erro ao carregar dados do evento");
+          });
+      } catch (err) {
+        return console.error(err);
+      }
+    }
+    fetchEvento();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!titulo.trim() || !data || !local.trim()) {
+    if (!titulo.trim() || !dataBR || !local.trim()) {
       toast.error("Título, Data e Local são obrigatórios");
       return;
     }
-
     setLoading(true);
-
+    const dataISO = formatBRToISO(dataBR);
     try {
       const res = await fetch("/api/evento", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ titulo, data, local, descricao }),
+        body: JSON.stringify({ titulo, data: dataISO, local, descricao }),
       });
 
       if (!res.ok) {
@@ -51,7 +58,7 @@ export default function EventoForm() {
 
       toast.success("Evento salvo com sucesso!");
     } catch (error: any) {
-      toast.error(error.message || "Erro durante o salvamento");
+      toast.error(error.message || "Erro ao salvar!");
     } finally {
       setLoading(false);
     }
@@ -88,8 +95,8 @@ export default function EventoForm() {
         <input
           id="data"
           type="date"
-          value={data}
-          onChange={(e) => setData(e.target.value)}
+          value={dataBR}
+          onChange={(e) => setDataBR(e.target.value)}
           className="w-full border px-3 py-2 rounded"
           disabled={loading}
           required
@@ -134,4 +141,18 @@ export default function EventoForm() {
       </button>
     </form>
   );
+}
+
+function formatISOToBR(iso: string) {
+  if (!iso) return;
+  const date = new Date(iso);
+  console.log("Data pt-BR: ", date.toLocaleDateString("pt-br"));
+  return date.toLocaleDateString("pt-BR");
+}
+
+function formatBRToISO(brDate: string) {
+  const [dia, mes, ano] = brDate.split("/");
+  if (!dia || !mes || !ano) return "";
+  console.log("Data ISO: ", dia, mes, ano);
+  return [dia, mes, ano];
 }
