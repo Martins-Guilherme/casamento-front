@@ -5,7 +5,7 @@ import "./globals.css";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
-  title: "Criar lista de casamento",
+  title: "Lista de casamento",
   description: "Gerenciador de lista para casamentos",
 };
 

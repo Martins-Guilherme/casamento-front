@@ -21,7 +21,7 @@ const Evento = () => {
   }, []);
 
   const { titulo, data, local, descricao, imagem } = evento;
-  console.log(evento);
+  console.log(data);
   return (
     <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
       <h2 className="text-2xl font-semibold text-gray-800 mb-4">{titulo}</h2>
