@@ -31,8 +31,6 @@ export async function POST(req: Request) {
     where: { id: presenteId },
   });
 
-  console.log(presente);
-
   if (!presente || !presente.disponivel) {
     return NextResponse.json(
       { error: "Esse presente já foi escolhido por outro convidado." },
@@ -43,7 +41,7 @@ export async function POST(req: Request) {
   // Cria convidado e bloqueia presente na mesma transação
   const token = Math.random().toString(36).substring(2, 10);
 
-  const [convidado] = await prisma.$transaction([
+  const [convidado, presenteAtualizado] = await prisma.$transaction([
     prisma.convidado.create({
       data: {
         nome,
@@ -58,5 +56,10 @@ export async function POST(req: Request) {
     }),
   ]);
 
-  return NextResponse.json({ token: convidado.token });
+  return NextResponse.json({
+    token: convidado.token,
+    presente: presenteAtualizado,
+  });
 }
+
+// Atualizar presente para disponivel false

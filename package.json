@@ -2,6 +2,7 @@
   "name": "app-web",
   "version": "0.1.0",
   "private": true,
+  "type": "commonjs",
   "prisma": {
     "seed": "node prisma/seed.js"
   },
@@ -9,7 +10,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "creat": "npx tsc src/app/test/updatePresentDisponivel.ts --outDir dist/scripts/",
+    "test": " node dist/scripts/updatePresentDisponivel.js "
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

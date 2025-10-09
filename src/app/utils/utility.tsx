@@ -1,7 +1,8 @@
 export function formatDateBR(isoDate?: string) {
   if (!isoDate) return "";
   try {
-    return new Date(isoDate).toLocaleDateString("pt-BR");
+    const date = new Date(isoDate);
+    return date.toLocaleDateString("pt-BR", { timeZone: "UTC" });
   } catch {
     return isoDate;
   }

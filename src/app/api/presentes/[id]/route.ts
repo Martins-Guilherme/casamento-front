@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
-import fs from "fs";
-import path from "path";
 
 // DELETE - Remover presentes pelo ID
-export async function DELETE(_: Request, res: any) {
-  const id = Number(res.id);
+export async function DELETE(_: Request, context: { params: { id: string } }) {
+  const id = Number(context.params.id);
+  console.log(id);
   try {
     const presente = await prisma.tabelaDePresentes.findUnique({
       where: { id },
@@ -15,20 +14,10 @@ export async function DELETE(_: Request, res: any) {
         { error: "Presente não encontrado" },
         { status: 404 }
       );
-
-    // se imagem apontar para /presentes/xxx, remove arquivo
-    if (presente.imagem && presente.imagem.startsWith("/presentes/")) {
-      const filePath = path.join(
-        process.cwd(),
-        "public",
-        presente.imagem.replace(/^\/+/, "")
-      );
-      try {
-        if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-      } catch (e) {
-        console.warn("Erro ao remover arquivo:", e);
-      }
-    }
+    await prisma.convidado.updateMany({
+      where: { presenteId: id },
+      data: { presenteId: null },
+    });
 
     await prisma.tabelaDePresentes.delete({ where: { id } });
     return NextResponse.json({ message: "Presente removido" });

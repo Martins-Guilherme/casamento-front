@@ -5,7 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = env("DATABASE_LOCAL_URL")
 }
 
 model Convidado {
@@ -25,7 +25,7 @@ model TabelaDePresentes {
   nome       String
   imagem     String?
   descricao  String?
-  disponivel Boolean?    @default(true)
+  disponivel Boolean     @default(true)
   convidados Convidado[]
 }
 

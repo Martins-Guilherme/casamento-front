@@ -61,7 +61,7 @@ export default function PresenteCard({
         )}
         {presente.reservado && (
           <>
-            <p className="tsxt-sm text-red-500 font-semibold mt-2">
+            <p className="text-sm text-red-500 font-semibold mt-2">
               Já escolhido!
             </p>
             <p className="text-xs text-gray-500 mt-1">
@@ -83,7 +83,7 @@ export default function PresenteCard({
         {selecionado && !isBlocked
           ? "Selecionado"
           : isBlocked
-          ? "Indisponivel"
+          ? "Indisponível"
           : "Selecionar Presente"}
       </div>
     </div>

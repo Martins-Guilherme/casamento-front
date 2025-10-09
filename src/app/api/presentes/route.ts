@@ -5,19 +5,19 @@ import { prisma } from "@/app/_lib/prisma";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { nome, descricao, imagem, disponivel } = data;
-    if (!nome) {
+    const { nome, descricao, imagem } = data;
+    if (!nome || !descricao) {
       return NextResponse.json(
-        { error: "Nome é obrigatório" },
+        { error: "Nome e descrição são obrigatórios!" },
         { status: 400 }
       );
     }
     const presente = await prisma.tabelaDePresentes.create({
-      data: { nome, descricao, imagem, disponivel },
+      data: { nome, descricao, imagem },
     });
     return NextResponse.json(presente, { status: 201 });
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
   } catch (error) {
+    console.error(error);
     return NextResponse.json(
       { error: "Erro ao tentar criar presente" },
       { status: 500 }

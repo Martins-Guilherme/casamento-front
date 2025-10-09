@@ -28,8 +28,7 @@ export default function AdminPresentsPage() {
   const [descricao, setDescricao] = useState("");
   const [imagemUrl, setImagemUrl] = useState(""); // caso queira colar URL
   const [loading, setLoading] = useState(false);
-  const [preview, setPreview] = useState<string | null>(null);
-
+const [preview, setPreview] = useState<string | null>(null);
   const fetchPresentes = async () => {
     try {
       const res = await fetch("/api/presentes");
@@ -53,16 +52,16 @@ export default function AdminPresentsPage() {
     }
     setLoading(true);
     try {
-        // cria com URL (ou sem imagem)
-        const res = await fetch("/api/presentes", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ nome, descricao, imagem: imagemUrl || null }),
-        });
-        if (!res.ok) {
-          const error = await res.json().catch(() => null);
-          throw new Error(error?.error || "Erro ao criar");
-        }
+      // cria com URL (ou sem imagem)
+      const res = await fetch("/api/presentes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome, descricao, imagem: imagemUrl || null }),
+      });
+      if (!res.ok) {
+        const error = await res.json().catch(() => null);
+        throw new Error(error?.error || "Erro ao criar");
+      }
 
       toast.success("Presente adicionado!");
       setNome("");

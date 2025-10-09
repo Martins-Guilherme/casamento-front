@@ -34,7 +34,12 @@ export async function PATCH(req: Request, res: any) {
 
     await prisma.convidado.update({
       where: { id: convidado.id },
-      data: { presenteId: null },
+      data: { presenteId: null }
+    });
+    
+    await prisma.tabelaDePresentes.update({
+      where: { id: presenteId },
+      data: { disponivel: true },
     });
 
     return NextResponse.json({ message: "Seleção removida com sucesso" });
