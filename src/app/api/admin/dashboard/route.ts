@@ -8,11 +8,15 @@ export async function GET() {
       where: { usado: true },
     });
 
+    const totalPresentesDisponiveis = await prisma.tabelaDePresentes.count({
+      where: { disponivel: true },
+    });
+
+    const totalPresentesCadastrados = await prisma.tabelaDePresentes.count();
+
     const totalPresentesSelecionados = await prisma.convidado.count({
       where: { presenteId: { not: null } },
     });
-
-    const totalPresentesDisponiveis = await prisma.tabelaDePresentes.count();
 
     const presentesPopulares = await prisma.convidado.groupBy({
       by: ["presenteId"],
@@ -25,6 +29,7 @@ export async function GET() {
       totalConvidadosConfirmados,
       totalPresentesSelecionados,
       totalPresentesDisponiveis,
+      totalPresentesCadastrados,
       presentesPopulares,
     });
   } catch (erro) {

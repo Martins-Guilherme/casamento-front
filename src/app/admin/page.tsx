@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 
-import { Gift, UserCheckIcon } from "lucide-react";
+import { Gift, PackageOpen, UserCheckIcon } from "lucide-react";
 import Infocard from "@/app/_components/Infocard";
 import BarChart from "@/app/_components/BarChart";
 
@@ -10,6 +10,7 @@ interface DashboardData {
   totalPresentesSelecionados: number;
   totalConvidadosConfirmados: number;
   totalPresentesDisponiveis: number;
+  totalPresentesCadastrados: number;
   presentesPopulares: { nome: string; count: number[] };
 }
 
@@ -56,7 +57,7 @@ const AdminPage = () => {
     <div className="max-w-dvh mx-auto text-center flex flex-col items-center mb-8">
       <div className=" bg-white rounded-lg shadow p-3 overflow-hidden">
         <div className="p-6 space-y-8 flex w-fit justify-center max-w-lg items-center">
-          <div className="grid grid-cols-1 gap-24">
+          <div className="grid grid-cols-1 gap-10">
             <Infocard
               title="Convidados Confirmados"
               value={data.totalConvidadosConfirmados}
@@ -64,8 +65,13 @@ const AdminPage = () => {
             />
             <Infocard
               title="Presentes Cadastrados"
-              value={data.totalPresentesDisponiveis}
+              value={data.totalPresentesCadastrados}
               icon={<Gift size={32} />}
+            />
+            <Infocard 
+            title="Presentes Disponiveis"
+            value={data.totalPresentesDisponiveis}
+            icon={<PackageOpen size={32}/>}
             />
             <div className="flex w-full">
               <BarChart labels={labels} data={counts} />
