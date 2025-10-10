@@ -40,16 +40,14 @@ export default function FormCadastroConvidado({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, presenteId }),
       });
-
       const result = await res.json();
 
       // Caso de erro tratado
       if (!res.ok) {
         const mensagemErro =
           result?.error === "PRESENTE_JA_ESCOLHIDO"
-            ? "Este presente já foi escolhido por outro convidado"
+            ? "Ops! Esse presente já foi escolhido 💝"
             : result?.error || "Erro ao enviar formulário";
-
         setError(mensagemErro);
         onError(mensagemErro);
         setLoading(false);
@@ -57,7 +55,7 @@ export default function FormCadastroConvidado({
       }
 
       // Sucesso
-      onSuccess(result.convidado.token);
+      onSuccess(result.token);
     } catch (error) {
       console.error(error);
       const msg = "Erro inesperado ao enviar formulário";

@@ -27,21 +27,29 @@ export async function POST(req: Request) {
     // Gerar o token de acesso unico
     const token = crypto.randomBytes(10).toString("hex");
 
-    // Criar convidado
-    const convidado = await prisma.convidado.create({
-      data: {
-        nome,
-        email,
-        telefone,
-        mensagem,
-        token,
-        usado: true,
-        presente: { connect: { id: presenteId } },
-      },
-    });
+    // Criar convidado e marcar o presente como disponivel false
+    const convidado = await prisma.$transaction([
+      prisma.convidado.create({
+        data: {
+          nome,
+          email,
+          telefone,
+          mensagem,
+          token,
+          usado: true,
+          presente: { connect: { id: presenteId } },
+        },
+      }),
+      prisma.tabelaDePresentes.update({
+        where: { id: presenteId },
+        data: { disponivel: false },
+      }),
+    ]);
+
     return NextResponse.json({
       message: "Convidado criado com sucesso",
-      convidado,
+      ...convidado,
+      token,
     });
   } catch (error) {
     console.error(error);

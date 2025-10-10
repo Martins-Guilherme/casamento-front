@@ -17,10 +17,10 @@ export default function ConvitePage() {
   // Verifica se o usuário já tem token salvo
   useEffect(() => {
     const token = localStorage.getItem("convite_token");
-    if (!token) {
-      router.push("/convite/");
-    } else {
+    if (token) {
       router.push(`/convite/${token}`);
+    } else {
+      router.push("/convite/");
     }
   }, [router]);
 
@@ -37,7 +37,6 @@ export default function ConvitePage() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchPresentes();
   }, []);

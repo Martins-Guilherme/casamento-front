@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   const presentId = 5;
 
-  console.log("Atualizando presente, definindo disponivel para false.");
+  console.log("Atualizando presente, definindo disponivel para true.");
   const presenteAtualizado = await prisma.tabelaDePresentes.update({
     where: { id: presentId },
     data: { disponivel: true },

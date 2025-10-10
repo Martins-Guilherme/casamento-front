@@ -1,13 +1,15 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/app/_lib/prisma";
+import { validateToken } from "@/app/_lib/validateToken";
 
-export async function GET(req: Request, res: any) {
+export async function GET(
+  req: Request,
+  context: Promise<{ params: { token: string } }>
+) {
+  const { params } = await context;
+  const { token } = params;
+
   try {
-    const { params } = res;
-    const convidado = await prisma.convidado.findUnique({
-      where: { token: params.token },
-      include: { presente: true },
-    });
+    const convidado = await validateToken(token);
 
     if (!convidado) {
       return NextResponse.json(
