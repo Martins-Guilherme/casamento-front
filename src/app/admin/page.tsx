@@ -1,36 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useDashboardData } from "../_hooks/userDashboardData";
 
 import { Gift, PackageOpen, UserCheckIcon } from "lucide-react";
 import Infocard from "@/app/_components/Infocard";
 import BarChart from "@/app/_components/BarChart";
 
-interface DashboardData {
-  totalPresentesSelecionados: number;
-  totalConvidadosConfirmados: number;
-  totalPresentesDisponiveis: number;
-  totalPresentesCadastrados: number;
-  presentesPopulares: { nome: string; count: number[] };
-}
-
 const AdminPage = () => {
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [loading, setLoading] = useState(true);
+  const { data, error, isLoading } = useDashboardData();
 
-  useEffect(() => {
-    async function fetcheDashboardData() {
-      const res = await fetch("/api/admin/dashboard");
-      if (res.ok) {
-        const json = await res.json();
-        setData(json);
-      }
-      setLoading(false);
-    }
-    fetcheDashboardData();
-  }, []);
-
-  if (loading)
+  if (isLoading)
     return (
       <div className="h-screen flex justify-center items-center">
         <p className="bg-white p-8 flex justify-center items-center text-red-300 uppercase text-shadow-2xs rounded-2xl shadow text-3xl font-bold mb-6">
@@ -38,11 +17,20 @@ const AdminPage = () => {
         </p>
       </div>
     );
+  if (error) {
+    return (
+      <div className="h-screen flex justify-center items-center">
+        <p className="bg-white p-8 flex justify-center items-center text-red-400 uppercase text-shadow-2xs rounded-2xl shadow text-3xl font-bold mb-6">
+          {error.message}
+        </p>
+      </div>
+    );
+  }
   if (!data)
     return (
       <div className="h-screen flex justify-center items-center">
         <p className="bg-white p-8 flex justify-center items-center text-red-400 uppercase text-shadow-2xs rounded-2xl shadow text-3xl font-bold mb-6">
-          Erro ao carregar os dados!
+          Dados não encontrados!
         </p>
       </div>
     );
@@ -68,10 +56,10 @@ const AdminPage = () => {
               value={data.totalPresentesCadastrados}
               icon={<Gift size={32} />}
             />
-            <Infocard 
-            title="Presentes Disponiveis"
-            value={data.totalPresentesDisponiveis}
-            icon={<PackageOpen size={32}/>}
+            <Infocard
+              title="Presentes Disponiveis"
+              value={data.totalPresentesDisponiveis}
+              icon={<PackageOpen size={32} />}
             />
             <div className="flex w-full">
               <BarChart labels={labels} data={counts} />
