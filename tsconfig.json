@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
+    "target": "esnext",
     "outDir": "dist/scripts",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -9,7 +9,6 @@
     "strictFunctionTypes": false,
     "noEmit": true,
     "esModuleInterop": true,
-    "module": "commonjs",
     "forceConsistentCasingInFileNames": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -23,15 +22,18 @@
     ],
     "paths": {
       "@/*": ["./src/*"]
-    }
+    },
+    // Module 'esnext' serve para fazer o build da aplicação.
+    "module": "esnext"
+    // Module 'commonjs' serve para realizar testes unitarios
+    // "module": "commonjs"
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     "next-env.d.ts",
     "src/**/*",
-    ".next/types/**/*.ts",
-    "prisma/updatePresentDisponivel.js"
+    ".next/types/**/*.ts"
   ],
   "exclude": ["node_modules"]
 }
