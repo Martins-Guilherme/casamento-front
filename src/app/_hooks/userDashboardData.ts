@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR, { SWRConfiguration } from "swr";
 import { DashboardData } from "../_types/dashboard";
 
 /**
@@ -11,14 +11,19 @@ import { DashboardData } from "../_types/dashboard";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
-    if (!res.ok) throw new Error("Erro ao buscar os dados do Dashboard");
+    if (!res.ok) throw new Error("Erro ao buscar os dados");
     return res.json();
   });
 
-export function useDashboardData() {
+const defaultOptions: SWRConfiguration = {
+  revalidateOnFocus: false,
+};
+
+export function useDashboardData(path: string, swroptions = defaultOptions) {
   const { data, error, isLoading } = useSWR<DashboardData>(
-    "/api/admin/dashboard",
-    fetcher
+    path,
+    fetcher,
+    swroptions
   );
   return {
     data,

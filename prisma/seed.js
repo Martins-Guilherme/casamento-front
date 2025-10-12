@@ -55,6 +55,19 @@ async function main() {
     },
   });
 
+  await prisma.convidado.create({
+    data: {
+      email: "email.com@gmail.com",
+      nome: "Jose Cuervo",
+      id: 3,
+      mensagem: "Não quero falar nada",
+      presenteId: 2,
+      token: "69ac1cf235b464b7a4f2",
+      telefone: "84994426416",
+      usado: true,
+    },
+  });
+
   console.log("✅ Presentes criados com sucesso!");
 }
 

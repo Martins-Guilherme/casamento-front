@@ -1,46 +1,29 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/app/_components/ui/button";
-import { Input } from "@/app/_components/ui/input";
-import { Textarea } from "@/app/_components/ui/textarea";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from "@/app/_components/ui/card";
-import { toast } from "sonner";
+import { Input } from "@/app/_components/ui/input";
+import { Textarea } from "@/app/_components/ui/textarea";
+import { usePresenteData } from "@/app/_hooks/usePresents";
 import Image from "next/image";
-
-type Presente = {
-  id: number;
-  nome: string;
-  descricao?: string | null;
-  imagem?: string | null;
-  reservado?: number | null;
-};
+import { useState } from "react";
+import { toast } from "sonner";
+import { mutate } from "swr";
 
 export default function AdminPresentsPage() {
-  const [presentes, setPresentes] = useState<Presente[]>([]);
   const [nome, setNome] = useState("");
   const [descricao, setDescricao] = useState("");
   const [imagemUrl, setImagemUrl] = useState(""); // caso queira colar URL
-  const [loading, setLoading] = useState(false);
-  const fetchPresentes = async () => {
-    try {
-      const res = await fetch("/api/presentes");
-      const data = await res.json();
-      setPresentes(data);
-    } catch (err) {
-      console.error(err);
-      toast.error("Erro ao carregar presentes");
-    }
-  };
-
-  useEffect(() => {
-    fetchPresentes();
-  }, []);
+  const {
+    data: presentes,
+    error,
+    isLoading,
+  } = usePresenteData("/api/presentes");
 
   const handleAdd = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,7 +31,7 @@ export default function AdminPresentsPage() {
       toast.error("Nome é obrigatório");
       return;
     }
-    setLoading(true);
+    isLoading;
     try {
       // cria com URL (ou sem imagem)
       const res = await fetch("/api/presentes", {
@@ -65,12 +48,12 @@ export default function AdminPresentsPage() {
       setNome("");
       setDescricao("");
       setImagemUrl("");
-      fetchPresentes();
+      mutate("/api/presentes");
     } catch (err) {
       console.error(err);
       toast.error("Erro ao adicionar presente");
     } finally {
-      setLoading(false);
+      isLoading;
     }
   };
 
@@ -80,7 +63,7 @@ export default function AdminPresentsPage() {
       const res = await fetch(`/api/presentes/${id}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Erro ao excluir");
       toast.success("Presente removido");
-      fetchPresentes();
+      mutate("/api/presentes");
     } catch (err) {
       console.error(err);
       toast.error("Erro ao remover presente");
@@ -117,7 +100,7 @@ export default function AdminPresentsPage() {
 
             <div className="flex items-center gap-3">
               <Button type="submit" className="px-4">
-                {loading ? "Carregando..." : "Adicionar"}
+                {isLoading ? "Carregando..." : "Adicionar"}
               </Button>
             </div>
           </form>
@@ -130,10 +113,9 @@ export default function AdminPresentsPage() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {presentes.map((p) => (
+            {presentes?.map((p: any) => (
               <div key={p.id} className="bg-white rounded-lg shadow p-3">
                 {p.imagem ? (
-                  // imagem local em /public/presentes/... ou url externa
                   <Image
                     src={p.imagem}
                     alt={p.nome}
@@ -152,7 +134,7 @@ export default function AdminPresentsPage() {
                 <div className="mt-3 flex gap-2">
                   <button
                     onClick={() => handleDelete(p.id)}
-                    className="px-3 py-1 rounded bg-red-600 text-white text-sm"
+                    className="px-3 py-1 rounded bg-red-600 cursor-pointer text-white text-sm"
                   >
                     Remover
                   </button>

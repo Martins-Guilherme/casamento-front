@@ -5,9 +5,10 @@ import { useDashboardData } from "../_hooks/userDashboardData";
 import { Gift, PackageOpen, UserCheckIcon } from "lucide-react";
 import Infocard from "@/app/_components/Infocard";
 import BarChart from "@/app/_components/BarChart";
+import { SWRConfig } from "swr";
 
 const AdminPage = () => {
-  const { data, error, isLoading } = useDashboardData();
+  const { data, error, isLoading } = useDashboardData("/api/admin/dashboard");
 
   if (isLoading)
     return (
@@ -45,26 +46,32 @@ const AdminPage = () => {
     <div className="max-w-dvh mx-auto text-center flex flex-col items-center mb-8">
       <div className=" bg-white rounded-lg shadow p-3 overflow-hidden">
         <div className="p-6 space-y-8 flex w-fit justify-center max-w-lg items-center">
-          <div className="grid grid-cols-1 gap-10">
-            <Infocard
-              title="Convidados Confirmados"
-              value={data.totalConvidadosConfirmados}
-              icon={<UserCheckIcon size={32} />}
-            />
-            <Infocard
-              title="Presentes Cadastrados"
-              value={data.totalPresentesCadastrados}
-              icon={<Gift size={32} />}
-            />
-            <Infocard
-              title="Presentes Disponiveis"
-              value={data.totalPresentesDisponiveis}
-              icon={<PackageOpen size={32} />}
-            />
-            <div className="flex w-full">
-              <BarChart labels={labels} data={counts} />
+          <SWRConfig
+            value={{
+              provider: () => new Map(),
+            }}
+          >
+            <div className="grid grid-cols-1 gap-10">
+              <Infocard
+                title="Convidados Confirmados"
+                value={data.totalConvidadosConfirmados}
+                icon={<UserCheckIcon size={32} />}
+              />
+              <Infocard
+                title="Presentes Cadastrados"
+                value={data.totalPresentesCadastrados}
+                icon={<Gift size={32} />}
+              />
+              <Infocard
+                title="Presentes Disponiveis"
+                value={data.totalPresentesDisponiveis}
+                icon={<PackageOpen size={32} />}
+              />
+              <div className="flex w-full">
+                <BarChart labels={labels} data={counts} />
+              </div>
             </div>
-          </div>
+          </SWRConfig>
         </div>
       </div>
     </div>
