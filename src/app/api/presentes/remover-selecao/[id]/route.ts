@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(req: Request, res: any) {
+export async function PATCH(req: Request, context: { params: { id: number } }) {
+  console.log(context);
   try {
-    const { params } = res;
-    const presenteId = Number(params.id);
+    const params = context.params;
+    const presenteId = params.id;
+    console.log(presenteId);
 
     if (isNaN(presenteId)) {
       return NextResponse.json({ error: "ID inválido" }, { status: 400 });
@@ -34,9 +36,9 @@ export async function PATCH(req: Request, res: any) {
 
     await prisma.convidado.update({
       where: { id: convidado.id },
-      data: { presenteId: null }
+      data: { presenteId: null },
     });
-    
+
     await prisma.tabelaDePresentes.update({
       where: { id: presenteId },
       data: { disponivel: true },

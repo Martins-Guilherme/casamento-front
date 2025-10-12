@@ -32,7 +32,6 @@ export async function GET() {
       orderBy: { id: "asc" },
       include: { convidados: true },
     });
-
     // Mapear para adicionar propriedade reservado (true se tiver convidado vinculado)
     const presentes = presentesRaw.map((p) => ({
       id: p.id,
@@ -44,8 +43,8 @@ export async function GET() {
       escolhidoPor: p.convidados.length > 0 ? p.convidados[0].nome : null, // exemplo do primeiro convidado
     }));
     return NextResponse.json(presentes);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (error) {
+  } catch (erro) {
+    console.error(erro);
     return NextResponse.json(
       { error: "Erro ao listar presentes" },
       { status: 500 }

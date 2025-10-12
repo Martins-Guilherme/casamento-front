@@ -4,14 +4,14 @@ import PresenteCard from "../_components/PresenteCard";
 import FormCadastroConvidado from "../_components/FormCadastroConvidado";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { usePresentes } from "../_hooks/usePresents";
+import { mutate } from "swr";
 
 export default function ConvitePage() {
-  const [presentes, setPresentes] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [erro, setErro] = useState("");
-  const [presenteSelecionado, setPresenteSelecionado] = useState<number | null>(
-    null
-  );
+  const { presentes, erro, loading } = usePresentes();
+  const [presenteSelecionado, setPresenteSelecionado] = React.useState<
+    number | null
+  >(null);
   const router = useRouter();
 
   // Verifica se o usuário já tem token salvo
@@ -24,38 +24,23 @@ export default function ConvitePage() {
     }
   }, [router]);
 
-  // Busca lista de presentes
-  const fetchPresentes = async () => {
-    try {
-      const res = await fetch("/api/presentes");
-      const data = await res.json();
-      setPresentes(data);
-    } catch {
-      setErro("Erro ao buscar presentes, Tente novamente mais tarde.");
-      toast.error("Erro ao carregar a lista de presentes");
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    fetchPresentes();
-  }, []);
-
   // Atualiza o estado quando o presente é escolhido
   const handlePresenteSelecionado = (id: number) => {
-    const presente = presentes.find((p) => p.id === id);
+    const presente = presentes?.find((p: any) => p.id === id);
 
     if (presente && !presente.disponivel) {
       toast.error("Ops! Esse presente já foi escolhido 💝");
-      fetchPresentes(); // 🔁 Atualiza lista caso o status tenha mudado
+      // SWR revalidar cache
+      mutate("/api/presentes");
+    } else {
+      setPresenteSelecionado(id);
     }
-    setPresenteSelecionado(id);
   };
 
   // Recarregar a lista se o cadastro apresentar alguma falha
   const handleCadastroErro = (msg: string) => {
     toast.error(msg);
-    fetchPresentes();
+    mutate("/api/presentes");
     setPresenteSelecionado(null);
   };
 
@@ -63,16 +48,24 @@ export default function ConvitePage() {
     return (
       <p className="text-center mt-10 text-gray-500">Carregando presentes...</p>
     );
-  if (erro) return <p className="text-center text-red-600 mt-10">{erro}</p>;
+  if (erro) {
+    console.error("Error em SWR: ", erro);
+    return (
+      <p className="text-center text-red-600 mt-10">
+        {erro?.message ??
+          "Erro ao buscar presentes, tente novamente mais tarde."}
+      </p>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-[#FFEDE6] py-8 px-4">
+    <div className="min-h-screen bg-[#FFEDE6] py-8 px-4 flex flex-col items-center justify-center">
       {/* Header do convite */}
-      <div className="max-w-xl mx-auto text-center mb-8">
-        <h1 className="text-4xl font-serif font-bold text-[#D94F5A]">
+      <div className="max-w-xl w-full mx-auto bg-white rounded-3xl shadow-lg p-8 border border-[#FCDCE6] text-center mb-8">
+        <h1 className="text-center font-serif text-4xl font-bold text-[#D94F5A] mb-3 tracking-wide">
           José Tiago & Ana Beatriz
         </h1>
-        <p className="text-[#A37C6B] mt-2">
+        <p className="text-center text-[#A37C6B] mb-2 font-light text-lg">
           Convidam você para celebrar o nosso casamento
         </p>
       </div>

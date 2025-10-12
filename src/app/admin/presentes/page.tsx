@@ -28,7 +28,6 @@ export default function AdminPresentsPage() {
   const [descricao, setDescricao] = useState("");
   const [imagemUrl, setImagemUrl] = useState(""); // caso queira colar URL
   const [loading, setLoading] = useState(false);
-const [preview, setPreview] = useState<string | null>(null);
   const fetchPresentes = async () => {
     try {
       const res = await fetch("/api/presentes");
