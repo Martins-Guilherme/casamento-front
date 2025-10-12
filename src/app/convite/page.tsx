@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import PresenteCard from "../_components/PresenteCard";
 import FormCadastroConvidado from "../_components/FormCadastroConvidado";
 import { useRouter } from "next/navigation";

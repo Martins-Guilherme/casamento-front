@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(req: Request, context: { params: { id: number } }) {
-  console.log(context);
+export async function PATCH(req: Request, params: any) {
   try {
-    const params = context.params;
-    const presenteId = params.id;
+    const { id } = params;
+    const presenteId = Number(id);
     console.log(presenteId);
 
     if (isNaN(presenteId)) {
