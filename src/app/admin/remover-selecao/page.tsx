@@ -42,7 +42,7 @@ export default function RemoveSelectionPage() {
     if (!confirm("Remover vínculo desse presente?")) return;
     setLoading(true);
     try {
-      const res = await fetch(`/api/convidados/remover-presente/${id}`, {
+      const res = await fetch(`/api/presentes/remover-selecao/${id}`, {
         method: "PATCH",
       });
       if (!res.ok) throw new Error("Erro");

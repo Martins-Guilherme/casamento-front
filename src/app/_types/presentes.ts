@@ -5,4 +5,5 @@ export type Presente = {
   imagem?: string | null;
   reservado?: number | null;
   map?: any;
+  find?: any;
 };

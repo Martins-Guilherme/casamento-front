@@ -1,12 +1,10 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
-export async function PATCH(req: Request, params: any) {
+export async function PATCH(req: Request, context: any) {
+  const { params } = context as { params: { id: string } };
+  const presenteId = parseInt(params.id);
   try {
-    const { id } = params;
-    const presenteId = Number(id);
-    console.log(presenteId);
-
     if (isNaN(presenteId)) {
       return NextResponse.json({ error: "ID inválido" }, { status: 400 });
     }

@@ -2,10 +2,8 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/app/_lib/prisma";
 
 // DELETE - Remover presentes pelo ID
-export async function DELETE(
-  _: Request,
-  { params }: { params: { id: string } }
-) {
+export async function DELETE(_: Request, context: any) {
+  const { params } = context as { params: { id: string } };
   const id = parseInt(params.id);
   try {
     const presente = await prisma.tabelaDePresentes.findUnique({
@@ -23,7 +21,7 @@ export async function DELETE(
 
     await prisma.tabelaDePresentes.delete({ where: { id } });
     return NextResponse.json({ message: "Presente removido" });
-  } catch (err) {
+  } catch {
     return NextResponse.json(
       { error: "Erro ao excluir presente" },
       { status: 500 }

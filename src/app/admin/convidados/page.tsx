@@ -40,7 +40,7 @@ export default function ConvidadosPage() {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle>Convidados</CardTitle>
+          <CardTitle>✨ Convidados</CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
@@ -49,7 +49,7 @@ export default function ConvidadosPage() {
             )}
             {convidados.map((c) => (
               <li key={c.id} className="bg-white p-3 rounded shadow">
-                <div className="flex items-start justify-between">
+                <div className="flex items-center justify-between">
                   <div>
                     <p className="font-semibold">{c.nome}</p>
                     <p className="text-sm text-gray-600">{c.email}</p>

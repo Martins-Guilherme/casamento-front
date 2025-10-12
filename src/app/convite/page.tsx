@@ -4,11 +4,15 @@ import PresenteCard from "../_components/PresenteCard";
 import FormCadastroConvidado from "../_components/FormCadastroConvidado";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { usePresentes } from "../_hooks/usePresents";
+import { usePresenteData } from "../_hooks/usePresents";
 import { mutate } from "swr";
 
 export default function ConvitePage() {
-  const { presentes, erro, loading } = usePresentes();
+  const {
+    data: presentes,
+    error: erro,
+    isLoading: loading,
+  } = usePresenteData("/api/presentes");
   const [presenteSelecionado, setPresenteSelecionado] = React.useState<
     number | null
   >(null);
@@ -76,7 +80,7 @@ export default function ConvitePage() {
           🎁 Lista de Presentes
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-          {presentes.map((p: any) => (
+          {presentes?.map((p: any) => (
             <PresenteCard
               key={p.id}
               presente={p}
