@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { validateToken } from "@/app/_lib/validateToken";
 
-export async function GET(req: Request, params: any) {
+export async function GET(req: Request, context: any) {
+  const { params } = context as { params: { token: string } };
   const token = params.token;
 
   try {

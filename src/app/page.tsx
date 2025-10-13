@@ -1,7 +1,8 @@
+import { ImageUploader } from "./_components/ImageUploader";
+
 export default function Home() {
   return (
-    <div>
-      <h1>Olá mundo</h1>
+    <div className="flex items-center justify-center h-screen w-full">
     </div>
   );
 }

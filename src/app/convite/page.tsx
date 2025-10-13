@@ -65,7 +65,7 @@ export default function ConvitePage() {
   return (
     <div className="min-h-screen bg-[#FFEDE6] py-8 px-4 flex flex-col items-center justify-center">
       {/* Header do convite */}
-      <div className="max-w-xl w-full mx-auto bg-white rounded-3xl shadow-lg p-8 border border-[#FCDCE6] text-center mb-8">
+      <div className="max-w-l w-full mx-auto bg-white rounded-3xl shadow-lg p-8 border border-[#FCDCE6] text-center mb-8">
         <h1 className="text-center font-serif text-4xl font-bold text-[#D94F5A] mb-3 tracking-wide">
           José Tiago & Ana Beatriz
         </h1>
@@ -93,7 +93,7 @@ export default function ConvitePage() {
 
       {/* Formulário */}
       {presenteSelecionado && (
-        <div className="max-w-xl mx-auto bg-white rounded-lg p-6 shadow">
+        <div className="max-w-screen  bg-white rounded-lg p-6 shadow">
           <h3 className="text-[#D94F5A] font-semibold mb-4 text-center">
             Confirme sua Presença e Presente
           </h3>

@@ -51,20 +51,7 @@ async function main() {
       local: "Igreja Matriz, Centro, Cidade",
       descricao: "Venha celebrar conosco este dia tão especial!",
       imagem:
-        "https://media.istockphoto.com/id/930575164/pt/foto/small-catholic-church.webp?s=1024x1024&w=is&k=20&c=bMTuE0rBITCSslPhmVElymC5dFOUsrnKhkNtT4uuLcc=",
-    },
-  });
-
-  await prisma.convidado.create({
-    data: {
-      email: "email.com@gmail.com",
-      nome: "Jose Cuervo",
-      id: 3,
-      mensagem: "Não quero falar nada",
-      presenteId: 2,
-      token: "69ac1cf235b464b7a4f2",
-      telefone: "84994426416",
-      usado: true,
+        "https://res.cloudinary.com/djsxenm2q/image/upload/v1760318046/lxicjya5y4zni4xrymsy.jpg",
     },
   });
 

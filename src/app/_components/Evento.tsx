@@ -1,3 +1,4 @@
+import { CldImage } from "next-cloudinary";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -42,13 +43,24 @@ const Evento = () => {
       <p className="text-grat-800 font-bold text-lg mb-6">
         Descrição: <span className="text-red-400 font-bold">{descricao}</span>
       </p>
-      <div className="relative w-full h-56 rounded-lg overflow-hidden border border-gray-200">
-        <Image
-          src={imagem}
-          alt={descricao || "Imagem não carregada"}
-          fill
-          className="object-cover"
-        />
+      <div className="relative w-full h-[400px] rounded-lg overflow-hidden border border-gray-200">
+        {imagem ? (
+          <CldImage
+            width={500}
+            height={400}
+            src="oauuabvvtlcl9ju9nxah"
+            sizes="100vw"
+            alt="Descrição da imagem"
+            className="object-cover"
+          />
+        ) : (
+          <Image
+            src={imagem}
+            alt={descricao || "Imagem não carregada"}
+            fill
+            className="object-cover"
+          />
+        )}
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Evento from "@/app/_components/Evento";
 import Image from "next/image";
 import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import Evento from "@/app/_components/Evento";
 
 export default function ConviteTokenPage() {
   const { token } = useParams();
@@ -46,7 +46,7 @@ export default function ConviteTokenPage() {
   const { nome, email, presente } = convidado;
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex h-max-screen justify-center items-center">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 min-h-screen bg-[#FFEDE6] py-2 px-1">
         <div className="h-[650px] flex flex-col items-center justify-center bg-gray-50 px-1">
           <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
@@ -80,7 +80,7 @@ export default function ConviteTokenPage() {
         </div>
 
         {/* 💒 Coluna direita: informações do casamento */}
-        <div className="h-[650px] flex flex-col items-center justify-center bg-gray-50 px-1">
+        <div className="h-[750px] flex flex-col items-center justify-center bg-gray-50 px-1">
           <div className="bg-white rounded-lg shadow-lg max-w-lg w-full p-6 text-center">
             <Evento />
             <p className="text-gray-600 text-sm mt-4">
