@@ -93,7 +93,7 @@ export default function ConvitePage() {
 
       {/* Formulário */}
       {presenteSelecionado && (
-        <div className="max-w-screen  bg-white rounded-lg p-6 shadow">
+        <div className="w-full  bg-white rounded-lg p-6 shadow">
           <h3 className="text-[#D94F5A] font-semibold mb-4 text-center">
             Confirme sua Presença e Presente
           </h3>
