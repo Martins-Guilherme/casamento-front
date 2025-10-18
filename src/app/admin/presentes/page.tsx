@@ -1,5 +1,4 @@
 "use client";
-
 import { Button } from "@/app/_components/ui/button";
 import {
   Card,
@@ -10,6 +9,7 @@ import {
 import { Input } from "@/app/_components/ui/input";
 import { Textarea } from "@/app/_components/ui/textarea";
 import { usePresenteData } from "@/app/_hooks/usePresents";
+import { uploadToCloudinary } from "@/app/_lib/uploadCloudinary";
 import Image from "next/image";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -31,7 +31,6 @@ export default function AdminPresentsPage() {
       toast.error("Nome é obrigatório");
       return;
     }
-    isLoading;
     try {
       // cria com URL (ou sem imagem)
       const res = await fetch("/api/presentes", {
@@ -52,8 +51,6 @@ export default function AdminPresentsPage() {
     } catch (err) {
       console.error(err);
       toast.error("Erro ao adicionar presente");
-    } finally {
-      isLoading;
     }
   };
 
@@ -68,6 +65,22 @@ export default function AdminPresentsPage() {
       console.error(err);
       toast.error("Erro ao remover presente");
     }
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const uploadPromise = uploadToCloudinary(file).then((url) => {
+      setImagemUrl(url);
+    });
+
+    toast.promise(uploadPromise, {
+      loading: "Enviando imagem...",
+      success: "Imagem enviada!",
+      error: "Erro no upload da imagem",
+    });
+    await uploadPromise;
   };
 
   return (
@@ -88,14 +101,22 @@ export default function AdminPresentsPage() {
               value={descricao}
               onChange={(e) => setDescricao(e.target.value)}
             />
-            <div className="flex gap-3">
-              <div className="flex-1">
-                <Input
-                  placeholder="URL da imagem (opcional)"
-                  value={imagemUrl}
-                  onChange={(e) => setImagemUrl(e.target.value)}
+            <div className="flex gap-3 items-center">
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handleFileChange}
+                className="block cursor-pointer"
+              />
+              {imagemUrl && (
+                <Image
+                  src={imagemUrl}
+                  alt="Preview"
+                  width={90}
+                  height={90}
+                  className="rounded-md object-cover"
                 />
-              </div>
+              )}
             </div>
 
             <div className="flex items-center gap-3">
